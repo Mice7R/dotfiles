@@ -15,9 +15,10 @@ let mapleader=","
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
-  let l:modeline = printf(" vim: set ff=unix ts=%d sw=%d tw=%d %set :",
-    \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
+  let l:modeline = printf(" vim: set ff=unix ts=%d sw=%d tw=%d sts=%d %set :",
+    \ &tabstop, &shiftwidth, &textwidth, &softtabstop, &expandtab ? '' : 'no')
   let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
   call append(line("$"), l:modeline)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+set ml
