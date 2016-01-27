@@ -4,3 +4,6 @@
     ~/.gitconfig: gitconfig
     ~/.vimrc: vimrc
     ~/.tmux.conf: tmux.conf
+    ~/.links2/links.cfg:
+        create: true
+        path: links2/links.cfg
