@@ -5,6 +5,9 @@ set modeline
 set modelines=3
 set backspace=2 "Make bcksp work as *should*
 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
+
 " Powerline {{{
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
@@ -25,6 +28,7 @@ set foldnestmax=10
 " Colors & UI {{{
 set t_Co=256
 syntax on
+filetype indent on
 colorscheme ron
 set laststatus=2 "Always show status line
 set ruler
