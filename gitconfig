@@ -8,9 +8,10 @@
 	ci = commit
 	st = status -sb
 	iquit = reset HEAD --hard
-	lg = log --color --graph --pretty=format:'%h %Cred%ad%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --date=short
+	lg = log --color --graph --pretty=format:'%h %Cred%ad%Creset %G?%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit --date=short
 	ignore = "!f() { echo http://www.gitignore.io/api/$@ | sed 's/ /,/g' | wget -i- -O-;}; f >> .gitignore"
 [core]
 	editor = vim
+	autocrlf = input
 [color]
 	ui = auto
