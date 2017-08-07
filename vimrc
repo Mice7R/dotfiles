@@ -58,3 +58,4 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " }}}
+set statusline=%f\ %y\ %h%w%m%r\ %{fugitive#statusline()}\ %=%(%l,%c%V\ %=\ %P%)
