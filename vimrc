@@ -13,6 +13,10 @@ call pathogen#infect()
 "python3 powerline_setup()
 "python3 del powerline_setup
 " }}}
+" FileType commentstring {{{
+autocmd Filetype vim setlocal commentstring=\"\ %s
+autocmd Filetype sh,ruby,python setlocal commentstring=#\ %s
+" }}}
 " Indentation & Folding {{{
 set autoindent
 set tabstop=4 "A tab is 4 spaces
