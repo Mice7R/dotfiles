@@ -47,14 +47,14 @@ nnoremap k gk
 nnoremap gV `[v`]
 " }}}
 " Functions {{{
-" Append modeline after last line in buffer.
+" Insert modeline in line 0 in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
   let l:modeline = printf(" vim: set ff=unix ts=%d sw=%d tw=%d sts=%d %set :",
     \ &tabstop, &shiftwidth, &textwidth, &softtabstop, &expandtab ? '' : 'no')
   let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
+  call append(line(0), l:modeline)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " }}}
