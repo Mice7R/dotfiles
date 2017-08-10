@@ -16,6 +16,7 @@ call pathogen#infect()
 " FileType commentstring {{{
 autocmd Filetype vim setlocal commentstring=\"\ %s
 autocmd Filetype sh,ruby,python setlocal commentstring=#\ %s
+autocmd Filetype htmldjango setlocal commentstring={%\ comment\ %}\ %s\ {%\ endcomment\ %}
 " }}}
 " Indentation & Folding {{{
 set autoindent
