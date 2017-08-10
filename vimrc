@@ -55,8 +55,8 @@ nnoremap gV `[v`]
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
-  let l:modeline = printf(" vim: set ff=unix ts=%d sw=%d tw=%d sts=%d %set :",
-    \ &tabstop, &shiftwidth, &textwidth, &softtabstop, &expandtab ? '' : 'no')
+  let l:modeline = printf("vim: set ff=unix ft=%s ts=%d sw=%d tw=%d sts=%d %set :",
+    \ &filetype, &tabstop, &shiftwidth, &textwidth, &softtabstop, &expandtab ? '' : 'no')
   let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
   call append(line(0), l:modeline)
 endfunction
