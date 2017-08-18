@@ -8,15 +8,19 @@ set backspace=2 "Make bcksp work as *should*
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
+autocmd BufEnter * EnableStripWhitespaceOnSave
 " Powerline {{{
 "python3 from powerline.vim import setup as powerline_setup
 "python3 powerline_setup()
 "python3 del powerline_setup
 " }}}
+" FileType {{{
 " FileType commentstring {{{
 autocmd Filetype vim setlocal commentstring=\"\ %s
-autocmd Filetype dockerfile,sh,ruby,python setlocal commentstring=#\ %s
+autocmd Filetype make,dockerfile,sh,ruby,python setlocal commentstring=#\ %s
 autocmd Filetype htmldjango setlocal commentstring={%\ comment\ %}\ %s\ {%\ endcomment\ %}
+" }}}
+autocmd Filetype make setlocal noet
 " }}}
 " Indentation & Folding {{{
 set autoindent
