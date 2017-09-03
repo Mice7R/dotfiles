@@ -46,6 +46,8 @@ set cursorline
 set showmatch
 set wildmenu
 set lazyredraw
+set splitbelow
+set splitright
 " }}}
 " Shorcuts & Remaping {{{
 let mapleader=","
