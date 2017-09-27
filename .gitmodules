@@ -22,3 +22,6 @@
 [submodule "vim/bundle/vim-better-whitespace"]
 	path = vim/bundle/vim-better-whitespace
 	url = https://github.com/ntpeters/vim-better-whitespace
+[submodule "vim/bundle/vim-signature"]
+	path = vim/bundle/vim-signature
+	url = https://github.com/kshenoy/vim-signature
