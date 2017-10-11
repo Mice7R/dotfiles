@@ -5,6 +5,6 @@
     ~/.vimrc: vimrc
     ~/.vim: vim
     ~/.tmux.conf: tmux.conf
-    ~/.links2/links.cfg:
+    ~/.links/links.cfg:
         create: true
-        path: links2/links.cfg
+        path: links/links.cfg
