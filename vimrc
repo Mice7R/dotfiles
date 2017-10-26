@@ -70,4 +70,4 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " }}}
-set statusline=%f\ %y\ %h%w%m%r\ %=%([%n]\ %l,%c%V\ %=\ %P%)
+set statusline=%f\ %y\ %h%w%m%r\ [fo\=%{&fo}]\ %=%([%n]\ %l,%c%V\ %=\ %P%)
