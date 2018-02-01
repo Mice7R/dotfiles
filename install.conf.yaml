@@ -8,3 +8,4 @@
     ~/.links/links.cfg:
         create: true
         path: links/links.cfg
+    ~/.bin/urldecode: bin/urldecode
