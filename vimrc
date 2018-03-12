@@ -20,6 +20,7 @@ autocmd Filetype vim setlocal commentstring=\"\ %s
 autocmd Filetype make,dockerfile,sh,ruby,python setlocal commentstring=#\ %s
 autocmd Filetype htmldjango setlocal commentstring={%\ comment\ %}\ %s\ {%\ endcomment\ %}
 autocmd Filetype plaintex,tex setlocal commentstring=%\ %s
+autocmd Filetype plantuml setlocal commentstring='\ %s
 " }}}
 autocmd Filetype make setlocal noet
 " }}}
