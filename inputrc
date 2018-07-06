@@ -1,0 +1,8 @@
+set colored-completion-prefix On
+set bell-style none
+set editing-mode emacs
+set mark-symlinked-directories On
+set show-mode-in-prompt Off
+set visible-stats On
+set blink-matching-paren On
+set colored-stats On

@@ -9,3 +9,4 @@
         create: true
         path: links/links.cfg
     ~/.bin/urldecode: bin/urldecode
+    ~/.inputrc: inputrc
