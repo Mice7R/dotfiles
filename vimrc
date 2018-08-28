@@ -58,6 +58,7 @@ nnoremap j gj
 nnoremap k gk
 " highlight last inserted text
 nnoremap gV `[v`]
+nnoremap <silent> <Leader>nt :NERDTreeToggle<CR>
 " }}}
 " Functions {{{
 " Insert modeline in line 0 in buffer.
