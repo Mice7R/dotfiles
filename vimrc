@@ -9,6 +9,9 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
 autocmd BufEnter * EnableStripWhitespaceOnSave
+
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 " Powerline {{{
 "python3 from powerline.vim import setup as powerline_setup
 "python3 powerline_setup()
