@@ -10,3 +10,4 @@
         path: links/links.cfg
     ~/.bin/urldecode: bin/urldecode
     ~/.inputrc: inputrc
+    ~/.config/ranger: ranger
