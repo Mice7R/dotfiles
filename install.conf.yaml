@@ -11,3 +11,7 @@
     ~/.bin/urldecode: bin/urldecode
     ~/.inputrc: inputrc
     ~/.config/ranger: ranger
+
+- shell:
+    - command: ln -s -T $HOME/.links $HOME/.links2
+      description: SymLink .links and .links2 folders
