@@ -45,6 +45,7 @@ syntax on
 filetype indent on
 colorscheme ron
 set laststatus=2 "Always show status line
+hi LineNr ctermfg=246
 set ruler
 set number
 set cursorline
