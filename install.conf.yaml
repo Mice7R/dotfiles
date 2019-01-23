@@ -11,6 +11,7 @@
     ~/.bin/urldecode: bin/urldecode
     ~/.inputrc: inputrc
     ~/.config/ranger: ranger
+    ~/.radare2rc: radare2rc
 
 - shell:
     - command: ln -s -T $HOME/.links $HOME/.links2
