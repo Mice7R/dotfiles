@@ -16,3 +16,9 @@
 	autocrlf = input
 [color]
 	ui = auto
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	keepBackup = false
+	prompt = false
