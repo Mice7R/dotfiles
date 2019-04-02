@@ -12,6 +12,7 @@
     ~/.inputrc: inputrc
     ~/.config/ranger: ranger
     ~/.radare2rc: radare2rc
+    ~/.config/lf: lf
 
 - shell:
     - command: ln -s -T $HOME/.links $HOME/.links2
