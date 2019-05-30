@@ -1,0 +1,1 @@
+map t %file -b -z "$f"
