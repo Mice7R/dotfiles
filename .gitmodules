@@ -64,3 +64,9 @@
 [submodule "vim/bundle/color_coded"]
 	path = vim/bundle/color_coded
 	url = https://github.com/jeaye/color_coded
+[submodule "vim/bundle/vim-smali"]
+	path = vim/bundle/vim-smali
+	url = https://github.com/kelwin/vim-smali
+[submodule "vim/bundle/ack.vim"]
+	path = vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim
