@@ -1,1 +1,2 @@
 map t %file -b -z "$f"
+map su !IFS="`printf '\n\t'`"; sha1sum $fx
