@@ -1,8 +1,19 @@
 set colored-completion-prefix On
 set bell-style none
-set editing-mode emacs
 set mark-symlinked-directories On
-set show-mode-in-prompt Off
 set visible-stats On
 set blink-matching-paren On
 set colored-stats On
+set enable-bracketed-paste On
+
+# 8bit input
+set input-meta On
+set convert-meta Off
+# 8bit output
+set output-meta On
+
+# Mode
+set editing-mode emacs
+set show-mode-in-prompt Off
+set vi-cmd-mode-string [c]
+set vi-ins-mode-string [i]
