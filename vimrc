@@ -10,6 +10,7 @@ filetype plugin indent on
 call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'jeaye/color_coded'
 Plug 'junegunn/vim-easy-align'
