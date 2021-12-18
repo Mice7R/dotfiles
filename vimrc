@@ -4,12 +4,38 @@ set nocompatible
 set modeline
 set modelines=3
 set backspace=2 "Make bcksp work as *should*
+filetype plugin indent on
 
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
+" Plugins {{{
+call plug#begin('~/.vim/plugged')
 
-autocmd BufEnter * EnableStripWhitespaceOnSave
+Plug 'airblade/vim-gitgutter'
+Plug 'elzr/vim-json'
+Plug 'jeaye/color_coded'
+Plug 'junegunn/vim-easy-align'
+Plug 'kien/ctrlp.vim'
+Plug 'kshenoy/vim-signature'
+Plug 'ledger/vim-ledger'
+Plug 'mileszs/ack.vim'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'preservim/nerdtree'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'ycm-core/YouCompleteMe'
 
+call plug#end()
+" }}}
+
+"autocmd BufEnter * EnableStripWhitespaceOnSave
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:strip_only_modified_lines=1
+
+let g:ctrlp_working_path_mode = 'ra'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 " Powerline {{{
@@ -42,7 +68,6 @@ set foldnestmax=10
 " Colors & UI {{{
 set t_Co=256
 syntax on
-filetype indent on
 colorscheme ron
 set laststatus=2 "Always show status line
 hi LineNr ctermfg=246
@@ -63,6 +88,11 @@ nnoremap k gk
 " highlight last inserted text
 nnoremap gV `[v`]
 nnoremap <silent> <Leader>nt :NERDTreeToggle<CR>
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+"
+" " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 " }}}
 " Functions {{{
 " Insert modeline in line 0 in buffer.
