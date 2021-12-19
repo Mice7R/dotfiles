@@ -12,7 +12,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
-Plug 'jeaye/color_coded'
+Plug 'jeaye/color_coded', { 'do': 'rm -f CMakeCache.txt && cmake -DDOWNLOAD_CMAKE=false . && make -j8' }
 Plug 'junegunn/vim-easy-align'
 Plug 'kien/ctrlp.vim'
 Plug 'kshenoy/vim-signature'
