@@ -22,3 +22,5 @@
 [mergetool]
 	keepBackup = false
 	prompt = false
+[init]
+	defaultBranch = master
