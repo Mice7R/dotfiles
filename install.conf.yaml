@@ -14,6 +14,7 @@
     ~/.config/ranger: ranger
     ~/.radare2rc: radare2rc
     ~/.config/lf: lf
+    ~/.bashrc: bashrc
 
 - shell:
     - command: dconf load /org/gnome/terminal/ < gnome_terminal.dconf
