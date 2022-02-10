@@ -31,10 +31,11 @@ Plug 'ycm-core/YouCompleteMe'
 call plug#end()
 " }}}
 
-"autocmd BufEnter * EnableStripWhitespaceOnSave
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_only_modified_lines=1
+let g:strip_whitelines_at_eof=1
+let g:strip_whitespace_confirm=0
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ycm_autoclose_preview_window_after_completion = 1
