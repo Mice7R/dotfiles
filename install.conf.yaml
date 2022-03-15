@@ -11,10 +11,11 @@
     ~/.links2: ~/.links
     ~/.bin/urldecode: bin/urldecode
     ~/.inputrc: inputrc
-    ~/.config/ranger: ranger
     ~/.radare2rc: radare2rc
-    ~/.config/lf: lf
     ~/.bashrc: bashrc
+    ~/.config/ranger: ranger
+    ~/.config/lf: lf
+    ~/.config/liquidpromptrc: liquidpromptrc
 
 - shell:
     - command: dconf load /org/gnome/terminal/ < gnome_terminal.dconf
