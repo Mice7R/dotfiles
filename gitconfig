@@ -24,3 +24,5 @@
 	prompt = false
 [init]
 	defaultBranch = master
+[pull]
+	ff = only
