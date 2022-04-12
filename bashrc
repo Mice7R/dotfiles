@@ -93,7 +93,8 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # GO
 export GOROOT=$HOME/.go/go
 export GOPATH=$HOME/.go/packages
-if [[ -d "$GOROOT/bin" && -d "$GOPATH/bin" ]]; then
+if [[ -d "$GOROOT/bin" ]]; then
+    [[ -d "$GOPATH/bin" ]] || mkdir -p "$GOPATH"
     export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 fi
 
