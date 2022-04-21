@@ -108,4 +108,10 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " }}}
+" Backup Undo SWP {{{
+set undofile " Enable undofile
+set backupdir=.backup/,~/.vim/backup//,/tmp//
+set directory=.swp/,~/.vim/swp//,.
+set undodir=.undo/,~/.vim/undo//,/tmp//
+" }}}
 set statusline=%f\ %y\ %h%w%m%r\ [fo\=%{&fo}]\ %=%([%n]\ %l,%c%V\ %=\ %P%)
