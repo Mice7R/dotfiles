@@ -1,0 +1,14 @@
+classic: false
+
+blocks:
+  - permission
+  - links
+  - user
+  - group
+  - size
+  - date
+  - name
+
+sorting:
+  column: name
+  dir-grouping: first
