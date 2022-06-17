@@ -17,6 +17,9 @@
     ~/.config/lf: lf
     ~/.config/liquidpromptrc: liquidpromptrc
     ~/.config/lsd: lsd
+    ~/.config/htop/htoprc:
+        create: true
+        path: htoprc
 
 - shell:
     - command: dconf load /org/gnome/terminal/ < gnome_terminal.dconf
