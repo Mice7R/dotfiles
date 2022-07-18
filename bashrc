@@ -119,3 +119,11 @@ fi
 if [[ $(type gopass 2>/dev/null) && ! -z "$(gopass completion bash)" ]]; then
     source <(gopass completion bash)
 fi
+
+# FZF
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+which fd 2>&1 >/dev/null
+if [ $? -eq 0 ]; then
+    export FZF_CTRL_T_COMMAND="fd -H -tf -td -tl --strip-cwd-prefix"
+    export FZF_ALT_C_COMMAND="fd -H -td --strip-cwd-prefix"
+fi
