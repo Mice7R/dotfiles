@@ -20,6 +20,7 @@
     ~/.config/htop/htoprc:
         create: true
         path: htoprc
+    ~/.config/btop: btop
 
 - shell:
     - command: dconf load /org/gnome/terminal/ < gnome_terminal.dconf
