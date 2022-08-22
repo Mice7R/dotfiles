@@ -22,6 +22,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'preservim/nerdtree'
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'sjl/gundo.vim'
+Plug 'tibabit/vim-templates'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -40,6 +41,8 @@ let g:strip_whitespace_confirm=0
 let g:ctrlp_working_path_mode = 'ra'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
+
+let g:tmpl_search_paths = ['~/.vim/templates']
 " Powerline {{{
 "python3 from powerline.vim import setup as powerline_setup
 "python3 powerline_setup()
