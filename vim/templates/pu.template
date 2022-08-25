@@ -1,11 +1,13 @@
 ' vim: set ff=unix ft=plantuml ts=4 sw=4 tw=0 sts=4 noet :
 @startmindmap
+' Reunión {{TIMESTAMP}}
+' File    {{FILER}}
 <style>
 node {
     MaximumWidth 250
 }
 </style>
-' Reunión {{TIMESTAMP}}
-' File    {{FILER}}
 title Reunion {{TIMESTAMP}}
+
+* {{CURSOR}}
 @endmindmap
