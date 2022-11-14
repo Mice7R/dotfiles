@@ -332,8 +332,12 @@ handle_mime() {
             exit 1;;
 
         ## Executable Files
-        application/x-executable)
-            file "${FILE_PATH}" && rabin2 -I "${FILE_PATH}" && rabin2 -e "${FILE_PATH}" && exit 5
+        application/*executable | application/x-dosexec)
+            file "${FILE_PATH}" \
+                && echo "" \
+                && rabin2 -I "${FILE_PATH}" \
+                && echo "" \
+                && rabin2 -e "${FILE_PATH}" && exit 5
             exit 1;;
     esac
 }
