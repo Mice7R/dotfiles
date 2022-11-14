@@ -330,6 +330,11 @@ handle_mime() {
             mediainfo "${FILE_PATH}" && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
+
+        ## Executable Files
+        application/x-executable)
+            file "${FILE_PATH}" && rabin2 -I "${FILE_PATH}" && rabin2 -e "${FILE_PATH}" && exit 5
+            exit 1;;
     esac
 }
 
