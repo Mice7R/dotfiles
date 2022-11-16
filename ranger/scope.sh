@@ -63,6 +63,9 @@ handle_extension() {
             ## Avoid password prompt by providing empty password
             7z l -p -- "${FILE_PATH}" && exit 5
             exit 1;;
+        tpxz)
+            pixz -l -- "${FILE_PATH}" && exit 5
+            exit 1;;
 
         ## PDF
         pdf)
