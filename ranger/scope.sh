@@ -118,6 +118,11 @@ handle_extension() {
             mediainfo "${FILE_PATH}" && exit 5
             exiftool "${FILE_PATH}" && exit 5
             ;; # Continue with next handler on failure
+
+        sqlite3|db3)
+            sqlite3 "${FILE_PATH}" ".schema" && exit 0
+            exit 1
+            ;;
     esac
 }
 
