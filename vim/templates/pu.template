@@ -4,10 +4,20 @@
 ' File    {{FILER}}
 <style>
 node {
-    MaximumWidth 250
+    MaximumWidth 280
 }
 </style>
-title Reunion {{TIMESTAMP}}
+title Reunión {{TIMESTAMP}}
 
-* {{CURSOR}}
+* Reunión
+	*_ Pendiente
+		*[#limegreen] Nosotros
+		* Ellos
+
+left side
+
+	*_ objetivos
+	*_ participantes
+		* Mice
+		* {{CURSOR}}
 @endmindmap
