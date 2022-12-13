@@ -123,6 +123,11 @@ handle_extension() {
             sqlite3 "${FILE_PATH}" ".schema" && exit 0
             exit 1
             ;;
+
+        csv)
+            xsv table -- "${FILE_PATH}" && exit 0
+            exit 2
+            ;;
     esac
 }
 
