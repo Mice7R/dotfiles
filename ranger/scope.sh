@@ -119,7 +119,7 @@ handle_extension() {
             exiftool "${FILE_PATH}" && exit 5
             ;; # Continue with next handler on failure
 
-        sqlite3|db3)
+        sqlite3|db3|sqlite)
             sqlite3 "${FILE_PATH}" ".schema" && exit 0
             exit 1
             ;;
