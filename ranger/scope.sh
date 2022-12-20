@@ -119,10 +119,10 @@ handle_extension() {
             exiftool "${FILE_PATH}" && exit 5
             ;; # Continue with next handler on failure
 
-        sqlite3|db3|sqlite)
-            sqlite3 "${FILE_PATH}" ".schema" && exit 0
-            exit 1
-            ;;
+        # sqlite3|db3|sqlite)
+        #     sqlite3 "${FILE_PATH}" ".schema" && exit 0
+        #     exit 1
+        #     ;;
 
         csv)
             xsv table -- "${FILE_PATH}" && exit 0
@@ -351,6 +351,11 @@ handle_mime() {
                 && rabin2 -I "${FILE_PATH}" \
                 && echo "" \
                 && rabin2 -e "${FILE_PATH}" && exit 5
+            exit 1;;
+
+        ## SQLITE3
+        application/x-sqlite3)
+            sqlite3 "${FILE_PATH}" ".schema" && exit 0
             exit 1;;
     esac
 }
