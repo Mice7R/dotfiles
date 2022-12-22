@@ -125,7 +125,14 @@ handle_extension() {
         #     ;;
 
         csv)
-            xsv table -- "${FILE_PATH}" && exit 0
+            if (( $(head -n 2000 -- "${FILE_PATH}" | wc -l | tr -dc [:digit:]) > 1000 ))
+            then
+                # BIG ASS FILE
+                xsv slice -l 1000 -- "${FILE_PATH}" | xsv table \
+                    && echo "... Showing first 1000 lines ..." && exit 0;
+            else
+                xsv table -- "${FILE_PATH}" && exit 0;
+            fi
             exit 2
             ;;
     esac
