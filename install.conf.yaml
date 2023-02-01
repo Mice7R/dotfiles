@@ -21,6 +21,12 @@
         create: true
         path: htoprc
     ~/.config/btop: btop
+    ~/.config/i3/config:
+      create: true
+      path: i3/i3-config
+    ~/.config/i3status-rust/config.toml:
+      create: true
+      path: i3/i3status-rust.toml
 
 - shell:
     - command: dconf load /org/gnome/terminal/ < gnome_terminal.dconf

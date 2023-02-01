@@ -1,0 +1,57 @@
+[theme]
+theme = "solarized-dark"
+[icons]
+icons = "awesome"
+
+[[block]]
+block = "music"
+player = "spotify"
+
+[[block]]
+block = "timewarrior"
+format = " $icon {$tags.rot-str(8,1) $elapsed|}"
+
+[[block]]
+block = "taskwarrior"
+format = " $icon $filter_name:$count "
+[[block.filters]]
+name = "Work"
+filter = "-personal and +work and +PENDING"
+
+[[block]]
+block = "disk_space"
+path = "/home"
+info_type = "available"
+interval = 60
+warning = 20.0
+alert = 10.0
+format = " $icon $free "
+
+[[block]]
+block = "memory"
+format = " $icon $mem_used_percents "
+format_alt = " $icon_swap $swap_used_percents "
+
+[[block]]
+block = "cpu"
+interval = 1
+
+[[block]]
+block = "load"
+interval = 1
+format = " $icon $1m.eng(3) "
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "battery"
+interval = 30
+device = "BAT0"
+good = 200
+info = 90
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a %d/%m %R"
