@@ -141,6 +141,12 @@ handle_extension() {
             fi
             exit 2
             ;;
+
+        pem|cer)
+            openssl x509 -inform pem -in "${FILE_PATH}" -text -noout && exit 5;
+            openssl x509 -inform der -in "${FILE_PATH}" -text -noout && exit 5;
+            exit 2
+            ;;
     esac
 }
 
