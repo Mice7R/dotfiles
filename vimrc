@@ -116,5 +116,6 @@ set undofile " Enable undofile
 set backupdir=.backup/,~/.vim/backup//,.
 set directory=.swp/,~/.vim/swp//,.
 set undodir=.undo/,~/.vim/undo//,/tmp//
+autocmd BufRead,BufNewFile /tmp/*,/var/tmp/*,/dev/shm/* setlocal noundofile nobackup noswapfile
 " }}}
 set statusline=%f\ %y\ %h%w%m%r\ [fo\=%{&fo}]\ %=%([%n]\ %l,%c%V\ %=\ %P%)
