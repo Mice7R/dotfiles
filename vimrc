@@ -113,7 +113,7 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " }}}
 " Backup Undo SWP {{{
 set undofile " Enable undofile
-set backupdir=.backup/,~/.vim/backup//,/tmp//
+set backupdir=.backup/,~/.vim/backup//,.
 set directory=.swp/,~/.vim/swp//,.
 set undodir=.undo/,~/.vim/undo//,/tmp//
 " }}}
