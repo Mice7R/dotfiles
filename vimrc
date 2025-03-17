@@ -43,6 +43,7 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
+let g:tmpl_auto_initialize = 0
 let g:tmpl_search_paths = ['~/.vim/templates']
 " Powerline {{{
 "python3 from powerline.vim import setup as powerline_setup
