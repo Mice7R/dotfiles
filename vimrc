@@ -52,6 +52,7 @@ let g:tmpl_search_paths = ['~/.vim/templates']
 " }}}
 " FileType {{{
 " FileType commentstring {{{
+autocmd Filetype clips setlocal commentstring=;\ %s
 autocmd Filetype vim setlocal commentstring=\"\ %s
 autocmd Filetype make,dockerfile,sh,ruby,python setlocal commentstring=#\ %s
 autocmd Filetype htmldjango setlocal commentstring={%\ comment\ %}\ %s\ {%\ endcomment\ %}
