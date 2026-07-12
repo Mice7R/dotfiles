@@ -1,0 +1,10 @@
+#!/bin/sh
+
+git --version >/dev/null || { echo "Required git"; exit 1; }
+
+mkdir -p $HOME/.local/state/ $HOME/.local/bin
+test -e $HOME/.local/state/dotfiles/.git || git clone https://github.com/mice7r/dotfiles $HOME/.local/state/dotfiles
+cd $HOME/.local/state/dotfiles
+ansible-playbook -i localhost, -c local ansible/playbooks/bootstrap.yml -K
+export PATH=$HOME/.local/bin:$PATH
+exec just update
