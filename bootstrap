@@ -1,10 +1,77 @@
 #!/bin/sh
 
-git --version >/dev/null || { echo "Required git"; exit 1; }
+set -eu
 
-mkdir -p $HOME/.local/state/ $HOME/.local/bin
-test -e $HOME/.local/state/dotfiles/.git || git clone https://github.com/mice7r/dotfiles $HOME/.local/state/dotfiles
-cd $HOME/.local/state/dotfiles
-ansible-playbook -i localhost, -c local ansible/playbooks/bootstrap.yml -K
+UV_VERSION="0.11.28"
+UV_ARCHIVE="uv-x86_64-unknown-linux-gnu.tar.gz"
+UV_URL="https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/${UV_ARCHIVE}"
+UV_SHA256="e490a6464492183c5d4534a5527fb4440f7f2bb2f228162ad7e4afe076dc0224"
+
+die() {
+    printf '%s\n' "$*" >&2
+    exit 1
+}
+
+have() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+download() {
+    if have curl; then
+        curl -fsSL "$1" -o "$2"
+    elif have wget; then
+        wget -qO "$2" "$1"
+    else
+        die "Need curl or wget."
+    fi
+}
+
+sha256() {
+    if have sha256sum; then
+        sha256sum "$1" | awk '{print $1}'
+    else
+        shasum -a 256 "$1" | awk '{print $1}'
+    fi
+}
+
+if have uv; then
+    UV_BIN="$(command -v uv)"
+else
+    TMPDIR="$(mktemp -d)"
+    trap 'rm -rf "$TMPDIR"' EXIT INT TERM
+
+    ARCHIVE="$TMPDIR/$UV_ARCHIVE"
+
+    download "$UV_URL" "$ARCHIVE"
+
+    [ "$(sha256 "$ARCHIVE")" = "$UV_SHA256" ] ||
+        die "Invalid SHA256."
+
+    tar -xzf "$ARCHIVE" -C "$TMPDIR"
+
+    UV_BIN="$(find "$TMPDIR" -type f -name uv | head -n1)"
+
+    chmod +x "$UV_BIN"
+fi
+
+mkdir -p $HOME/.local/state/
+
+if have git; then
+    test -e $HOME/.local/state/dotfiles/.git \
+        || git clone https://github.com/mice7r/dotfiles $HOME/.local/state/dotfiles
+else
+    die "Git is required."
+fi
+cd $HOME/.local/state/dotfiles/
+
+"$UV_BIN" python install
+"$UV_BIN" sync --locked
+
+"$UV_BIN" run \
+  ansible-playbook \
+  -i localhost, \
+  -c local \
+  ansible/playbooks/bootstrap.yml \
+  -K
 export PATH=$HOME/.local/bin:$PATH
 exec just update
