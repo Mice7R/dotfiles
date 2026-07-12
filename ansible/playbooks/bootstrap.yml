@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: true
   vars:
-    bootstrap_tmp: "{{ ansible_env.HOME }}/.cache/dotifles/"
+    bootstrap_tmp: "{{ ansible_facts.env.HOME }}/.cache/dotifles/"
     just:
       url: "https://github.com/casey/just/releases/download/1.56.0/just-1.56.0-x86_64-unknown-linux-musl.tar.gz"
       hash: "sha256:fa2a8ec1015d9df5330941ade12437488fc40d33f9c9f8cd4eb70a26de11b639"
@@ -13,12 +13,12 @@
   tasks:
     - name: Create bin folder
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.local/bin"
+        path: "{{ ansible_facts.env.HOME }}/.local/bin"
         state: directory
         mode: "0700"
     - name: Create man folder
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.local/share/man/man1/"
+        path: "{{ ansible_facts.env.HOME }}/.local/share/man/man1/"
         state: directory
         mode: "0700"
     - name: Create bootstrap temp folder
@@ -50,20 +50,20 @@
     - name: Install just binary
       ansible.builtin.copy:
         src: "{{ bootstrap_tmp }}/just/just"
-        dest: "{{ ansible_env.HOME }}/.local/bin/just"
+        dest: "{{ ansible_facts.env.HOME }}/.local/bin/just"
         remote_src: true
         mode: "0500"
 
     - name: Install just man page
       ansible.builtin.copy:
         src: "{{ bootstrap_tmp }}/just/just.1"
-        dest: "{{ ansible_env.HOME }}/.local/share/man/man1/just.1"
+        dest: "{{ ansible_facts.env.HOME }}/.local/share/man/man1/just.1"
         remote_src: true
         mode: "0400"
 
     - name: Download chezmoi binary
       ansible.builtin.get_url:
         url: "{{ chezmoi.url }}"
-        dest: "{{ ansible_env.HOME }}/.local/bin/chezmoi"
+        dest: "{{ ansible_facts.env.HOME }}/.local/bin/chezmoi"
         checksum: "{{ chezmoi.hash }}"
         mode: "0500"
