@@ -3,22 +3,26 @@
   gather_facts: true
   vars:
     bootstrap_tmp: "{{ ansible_facts.env.HOME }}/.cache/dotifles/"
+    install_prefix: "{{ ansible_facts.user_dir }}/.local"
     just:
       url: "https://github.com/casey/just/releases/download/1.56.0/just-1.56.0-x86_64-unknown-linux-musl.tar.gz"
       hash: "sha256:fa2a8ec1015d9df5330941ade12437488fc40d33f9c9f8cd4eb70a26de11b639"
     chezmoi:
       url: "https://github.com/twpayne/chezmoi/releases/download/v2.71.0/chezmoi-linux-amd64"
       hash: "sha256:2a051bb2a6f231b727834f11f0e5b45b7253983ca0012824fc9bc5132b39611e"
+    uv:
+      url: "https://github.com/astral-sh/uv/releases/download/0.11.28/uv-x86_64-unknown-linux-gnu.tar.gz"
+      hash: "sha256:e490a6464492183c5d4534a5527fb4440f7f2bb2f228162ad7e4afe076dc0224"
 
   tasks:
     - name: Create bin folder
       ansible.builtin.file:
-        path: "{{ ansible_facts.env.HOME }}/.local/bin"
+        path: "{{ install_prefix }}/bin"
         state: directory
         mode: "0700"
     - name: Create man folder
       ansible.builtin.file:
-        path: "{{ ansible_facts.env.HOME }}/.local/share/man/man1/"
+        path: "{{ install_prefix }}/share/man/man1/"
         state: directory
         mode: "0700"
     - name: Create bootstrap temp folder
@@ -50,20 +54,54 @@
     - name: Install just binary
       ansible.builtin.copy:
         src: "{{ bootstrap_tmp }}/just/just"
-        dest: "{{ ansible_facts.env.HOME }}/.local/bin/just"
+        dest: "{{ install_prefix }}/bin/just"
         remote_src: true
         mode: "0500"
 
     - name: Install just man page
       ansible.builtin.copy:
         src: "{{ bootstrap_tmp }}/just/just.1"
-        dest: "{{ ansible_facts.env.HOME }}/.local/share/man/man1/just.1"
+        dest: "{{ install_prefix }}/share/man/man1/just.1"
         remote_src: true
         mode: "0400"
 
     - name: Download chezmoi binary
       ansible.builtin.get_url:
         url: "{{ chezmoi.url }}"
-        dest: "{{ ansible_facts.env.HOME }}/.local/bin/chezmoi"
+        dest: "{{ install_prefix }}/bin/chezmoi"
         checksum: "{{ chezmoi.hash }}"
+        mode: "0500"
+
+    - name: Create uv extraction folder
+      ansible.builtin.file:
+        path: "{{ bootstrap_tmp }}/uv"
+        state: directory
+        mode: "0700"
+
+    - name: Download uv archive
+      ansible.builtin.get_url:
+        url: "{{ uv.url }}"
+        dest: "{{ bootstrap_tmp }}/uv.tar.gz"
+        checksum: "{{ uv.hash }}"
+        mode: "0600"
+
+    - name: Extract uv archive
+      ansible.builtin.unarchive:
+        src: "{{ bootstrap_tmp }}/uv.tar.gz"
+        dest: "{{ bootstrap_tmp }}/uv"
+        remote_src: true
+        creates: "{{ bootstrap_tmp }}/uv/uv-x86_64-unknown-linux-gnu/uv"
+
+    - name: Install uv binary
+      ansible.builtin.copy:
+        src: "{{ bootstrap_tmp }}/uv/uv-x86_64-unknown-linux-gnu/uv"
+        dest: "{{ install_prefix }}/bin/uv"
+        remote_src: true
+        mode: "0500"
+
+    - name: Install uvx binary
+      ansible.builtin.copy:
+        src: "{{ bootstrap_tmp }}/uv/uv-x86_64-unknown-linux-gnu/uvx"
+        dest: "{{ install_prefix }}/bin/uvx"
+        remote_src: true
         mode: "0500"
