@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: true
   vars:
-    bootstrap_tmp: "{{ ansible_facts.env.HOME }}/.cache/dotifles/"
+    bootstrap_tmp: "{{ ansible_facts.env.HOME }}/.cache/dotfiles/"
     install_prefix: "{{ ansible_facts.user_dir }}/.local"
     just:
       url: "https://github.com/casey/just/releases/download/1.56.0/just-1.56.0-x86_64-unknown-linux-musl.tar.gz"
