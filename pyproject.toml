@@ -1,0 +1,8 @@
+[project]
+name = "dotfiles"
+version = "0.1.0"
+description = "My dotfiles"
+requires-python = ">=3.14"
+dependencies = [
+    "ansible>=14.2.0",
+]
