@@ -13,29 +13,20 @@
     uv:
       url: "https://github.com/astral-sh/uv/releases/download/0.11.28/uv-x86_64-unknown-linux-gnu.tar.gz"
       hash: "sha256:e490a6464492183c5d4534a5527fb4440f7f2bb2f228162ad7e4afe076dc0224"
+    gum:
+      url: "https://github.com/charmbracelet/gum/releases/download/v0.17.0/gum_0.17.0_Linux_x86_64.tar.gz"
+      hash: "sha256:69ee169bd6387331928864e94d47ed01ef649fbfe875baed1bbf27b5377a6fdb"
 
   tasks:
-    - name: Create bin folder
+    - name: Make directories
       ansible.builtin.file:
-        path: "{{ install_prefix }}/bin"
+        path: "{{ item }}"
         state: directory
         mode: "0700"
-    - name: Create man folder
-      ansible.builtin.file:
-        path: "{{ install_prefix }}/share/man/man1/"
-        state: directory
-        mode: "0700"
-    - name: Create bootstrap temp folder
-      ansible.builtin.file:
-        path: "{{ bootstrap_tmp }}"
-        state: directory
-        mode: "0700"
-
-    - name: Create just extraction folder
-      ansible.builtin.file:
-        path: "{{ bootstrap_tmp }}/just"
-        state: directory
-        mode: "0700"
+      loop:
+        - "{{ install_prefix }}/share/man/man1/"
+        - "{{ bootstrap_tmp }}"
+        - "{{ bootstrap_tmp }}/just"
 
     - name: Download just archive
       ansible.builtin.get_url:
@@ -103,5 +94,26 @@
       ansible.builtin.copy:
         src: "{{ bootstrap_tmp }}/uv/uv-x86_64-unknown-linux-gnu/uvx"
         dest: "{{ install_prefix }}/bin/uvx"
+        remote_src: true
+        mode: "0500"
+
+    - name: Download gum
+      ansible.builtin.get_url:
+        url: "{{ gum.url }}"
+        dest: "{{ bootstrap_tmp }}/gum.tar.gz"
+        checksum: "{{ gum.hash }}"
+        mode: "0600"
+
+    - name: Extract gum archive
+      ansible.builtin.unarchive:
+        src: "{{ bootstrap_tmp }}/gum.tar.gz"
+        dest: "{{ bootstrap_tmp }}/"
+        remote_src: true
+        creates: "{{ bootstrap_tmp }}/gum/gum_0.17.0_Linux_x86_64/gum"
+
+    - name: Install gum binary
+      ansible.builtin.copy:
+        src: "{{ bootstrap_tmp }}/gum_0.17.0_Linux_x86_64/gum"
+        dest: "{{ install_prefix }}/bin/gum"
         remote_src: true
         mode: "0500"
