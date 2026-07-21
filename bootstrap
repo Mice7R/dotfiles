@@ -2,6 +2,7 @@
 
 set -eu
 
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 UV_VERSION="0.11.28"
 UV_ARCHIVE="uv-x86_64-unknown-linux-gnu.tar.gz"
 UV_URL="https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/${UV_ARCHIVE}"
@@ -54,11 +55,11 @@ else
     chmod +x "$UV_BIN"
 fi
 
-mkdir -p $HOME/.local/state/
+mkdir -p $XDG_CONFIG_HOME/
 
 if have git; then
-    test -e $HOME/.local/state/dotfiles/.git \
-        || git clone https://github.com/mice7r/dotfiles $HOME/.local/state/dotfiles
+    test -e $XDG_CONFIG_HOME/dotfiles/.git \
+        || git clone https://github.com/mice7r/dotfiles $XDG_CONFIG_HOME/dotfiles
 else
     die "Git is required."
 fi
