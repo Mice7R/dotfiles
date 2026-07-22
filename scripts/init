@@ -1,0 +1,62 @@
+#!/bin/sh
+
+set -eu
+
+CHEZMOI_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi"
+CHEZMOI_CONFIG_FILE="$CHEZMOI_CONFIG_HOME/chezmoi.toml"
+
+mkdir -p "$CHEZMOI_CONFIG_HOME"
+
+if [[ -f "$CHEZMOI_CONFIG_FILE" ]]; then
+    cat $CHEZMOI_CONFIG_FILE
+    gum confirm "Overwrite this configuration?" || exit 0
+fi
+
+echo "Machine initialization"
+echo
+
+#
+# Profile
+#
+
+PROFILE="$(
+    gum choose \
+        --header "Select the machine profile" \
+        home \
+        work
+)"
+
+#
+# Features
+#
+
+FEATURES="$(
+    gum choose \
+        --no-limit \
+        --header "Select the enabled features" \
+        gui \
+        cli
+)"
+
+has_feature() {
+    printf '%s\n' "$FEATURES" | grep -qx "$1"
+}
+
+GUI=false
+CLI=false
+
+has_feature gui && GUI=true
+has_feature cli && CLI=true
+
+cat >"$CHEZMOI_CONFIG_FILE" <<EOF
+[data]
+profile = "$PROFILE"
+
+[data.features]
+gui = $GUI
+cli = $CLI
+EOF
+
+gum style \
+    --foreground 10 \
+    "Configuration written to $CHEZMOI_CONFIG_FILE"
