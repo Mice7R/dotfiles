@@ -6,7 +6,8 @@ default:
 # Initialize a new machine.
 init:
     ./scripts/init
-    chezmoi init --apply
+    chezmoi init && \
+    chezmoi apply
 
 # Synchronize dotfiles and provision the machine.
 update:

@@ -49,6 +49,8 @@ has_feature gui && GUI=true
 has_feature cli && CLI=true
 
 cat >"$CHEZMOI_CONFIG_FILE" <<EOF
+sourceDir = "$HOME/.local/share/dotfiles/"
+
 [data]
 profile = "$PROFILE"
 
