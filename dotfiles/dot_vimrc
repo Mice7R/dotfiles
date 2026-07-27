@@ -12,23 +12,25 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
-Plug 'hashivim/vim-terraform'
-Plug 'jeaye/color_coded', { 'do': 'rm -f CMakeCache.txt && cmake -DDOWNLOAD_CMAKE=false . && make -j8' }
 Plug 'junegunn/vim-easy-align'
 Plug 'kien/ctrlp.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'ledger/vim-ledger'
-Plug 'mbbill/undotree'
+Plug 'mattn/vim-lsp-settings'
+Plug 'mechatroner/rainbow_csv'
 Plug 'mileszs/ack.vim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'preservim/nerdtree'
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'sheerun/vim-polyglot'
+Plug 'sjl/gundo.vim'
 Plug 'tibabit/vim-templates'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'ycm-core/YouCompleteMe'
 
 call plug#end()
 " }}}
@@ -40,10 +42,20 @@ let g:strip_whitelines_at_eof=1
 let g:strip_whitespace_confirm=0
 
 let g:ctrlp_working_path_mode = 'ra'
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
 
-let g:tmpl_auto_initialize = 0
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> <f2> <plug>(lsp-rename)
+    nmap <buffer> K <plug>(lsp-hover)
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
 let g:tmpl_search_paths = ['~/.vim/templates']
 " Powerline {{{
 "python3 from powerline.vim import setup as powerline_setup
@@ -52,7 +64,6 @@ let g:tmpl_search_paths = ['~/.vim/templates']
 " }}}
 " FileType {{{
 " FileType commentstring {{{
-autocmd Filetype clips setlocal commentstring=;\ %s
 autocmd Filetype vim setlocal commentstring=\"\ %s
 autocmd Filetype make,dockerfile,sh,ruby,python setlocal commentstring=#\ %s
 autocmd Filetype htmldjango setlocal commentstring={%\ comment\ %}\ %s\ {%\ endcomment\ %}
@@ -76,7 +87,7 @@ set foldnestmax=10
 " Colors & UI {{{
 set t_Co=256
 syntax on
-colorscheme ron
+colorscheme slate
 set laststatus=2 "Always show status line
 hi LineNr ctermfg=246
 set ruler
@@ -116,9 +127,8 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " }}}
 " Backup Undo SWP {{{
 set undofile " Enable undofile
-set backupdir=.backup/,~/.vim/backup//,.
+set backupdir=.backup/,~/.vim/backup//,/tmp//
 set directory=.swp/,~/.vim/swp//,.
 set undodir=.undo/,~/.vim/undo//,/tmp//
-autocmd BufRead,BufNewFile /tmp/*,/var/tmp/*,/dev/shm/* setlocal noundofile nobackup noswapfile
 " }}}
 set statusline=%f\ %y\ %h%w%m%r\ [fo\=%{&fo}]\ %=%([%n]\ %l,%c%V\ %=\ %P%)
