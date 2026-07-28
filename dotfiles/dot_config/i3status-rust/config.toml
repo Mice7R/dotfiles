@@ -1,7 +1,7 @@
 [theme]
 theme = "solarized-dark"
 [icons]
-icons = "awesome"
+icons = "awesome4"
 
 [[block]]
 block = "music"
@@ -9,7 +9,7 @@ player = "spotify"
 
 [[block]]
 block = "timewarrior"
-format = " $icon {$tags.rot-str(8,1) $elapsed|}"
+format = " $icon {$tags.str(max_w:8, rot_interval:1) $elapsed|}"
 
 [[block]]
 block = "taskwarrior"
@@ -39,7 +39,7 @@ interval = 1
 [[block]]
 block = "load"
 interval = 1
-format = " $icon $1m.eng(3) "
+format = " $icon $1m.eng(w:3) "
 
 [[block]]
 block = "sound"
@@ -54,4 +54,4 @@ info = 90
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d/%m %R"
+format = "$timestamp.datetime(f:'%a %d/%m %R')"
