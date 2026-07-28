@@ -14,9 +14,11 @@ format = " $icon {$tags.str(max_w:8, rot_interval:1) $elapsed|}"
 [[block]]
 block = "taskwarrior"
 format = " $icon $filter_name:$count "
+data_location = "~/.local/share/task"
 [[block.filters]]
 name = "Work"
 filter = "-personal and +work and +PENDING"
+config_override = ["rc.context:none"]
 
 [[block]]
 block = "disk_space"
