@@ -1,4 +1,5 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
+env := `chezmoi data --format json | jq -r '.profile? // "null"'`
 
 default:
     @just --list
@@ -12,4 +13,5 @@ init:
 # Synchronize dotfiles and provision the machine.
 update:
     chezmoi update
-    ansible-playbook ansible/playbooks/site.yml
+    uv sync --locked
+    uv run ansible-playbook -i localhost, -c local ansible/playbooks/{{env}}.yml -K
