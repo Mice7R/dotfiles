@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: true
+  vars:
+    features: "{{ (lookup('pipe', 'chezmoi data') | from_yaml).features }}"
+  roles:
+    - base
+    - role: liquidprompt
+      when: features.cli

@@ -1,0 +1,20 @@
+---
+- name: Install base packages on Arch
+  become: yes
+  ansible.builtin.pacman:
+    name:
+      - 7zip
+      - bzip2
+      - curl
+      - file
+      - git
+      - gzip
+      - lz4
+      - lzo
+      - ripgrep
+      - tmux
+      - wget
+      - xz
+      - zstd
+    state: present
+    update_cache: yes

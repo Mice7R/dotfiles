@@ -1,0 +1,16 @@
+- name: Setup XDG_FOLDERS
+  loop:
+    - "{{ xdg_config }}"
+    - "{{ xdg_cache }}"
+    - "{{ xdg_local }}"
+    - "{{ xdg_data }}"
+    - "{{ xdg_state }}"
+    - "{{ xdg_src }}"
+    - "{{ xdg_local }}/bin"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+
+- include_tasks: arch.yml
+  when: ansible_os_family == "Archlinux"

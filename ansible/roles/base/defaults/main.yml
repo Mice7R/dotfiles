@@ -1,0 +1,6 @@
+xdg_config: "{{ ansible_facts.env.HOME }}/.config"
+xdg_cache: "{{ ansible_facts.env.HOME }}/.cache"
+xdg_local: "{{ ansible_facts.env.HOME }}/.local"
+xdg_data: "{{ xdg_local }}/share"
+xdg_src: "{{ xdg_local }}/src"
+xdg_state: "{{ xdg_local }}/state"

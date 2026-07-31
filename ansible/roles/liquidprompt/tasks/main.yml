@@ -1,0 +1,7 @@
+---
+- name: Clone liquidprompt repo
+  ansible.builtin.git:
+    repo: "{{ liquidprompt_repo }}"
+    dest: "{{ xdg_src }}/liquidprompt"
+    version: "{{ liquidprompt_commit }}"
+    update: yes
