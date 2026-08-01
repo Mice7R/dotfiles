@@ -1,0 +1,10 @@
+---
+- name: Install C-compilaton packages
+  become: yes
+  ansible.builtin.pacman:
+    name:
+      - cmake
+      - make
+      - gcc
+    state: present
+    update_cache: yes
