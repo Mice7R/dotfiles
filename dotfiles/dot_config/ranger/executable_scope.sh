@@ -72,7 +72,6 @@ handle_extension() {
         tpxz)
             pixz -l -- "${FILE_PATH}" && exit 5
             exit 1;;
-
         ## PDF
         pdf)
             ## Preview as text conversion
@@ -142,7 +141,7 @@ handle_extension() {
             exit 2
             ;;
 
-        pem|cer)
+        der|pem|cer|cert)
             openssl x509 -inform pem -in "${FILE_PATH}" -text -noout && exit 5;
             openssl x509 -inform der -in "${FILE_PATH}" -text -noout && exit 5;
             exit 2
@@ -369,12 +368,18 @@ handle_mime() {
                 && echo "" \
                 && rabin2 -I "${FILE_PATH}" \
                 && echo "" \
-                && rabin2 -e "${FILE_PATH}" && exit 5
+                && rabin2 -e "${FILE_PATH}" \
+                && exit 0
             exit 1;;
 
         ## SQLITE3
         application/x-sqlite3)
             sqlite3 "${FILE_PATH}" ".schema" && exit 0
+
+        ## Javakeystore
+        application/x-java-keystore)
+            keytoolviewer "${FILE_PATH}" && exit 0
+            echo "" | keytool -list -keystore "${FILE_PATH}" 2>/dev/null && exit 0
             exit 1;;
     esac
 }
