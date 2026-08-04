@@ -206,3 +206,5 @@ bindsym XF86AudioPrev exec playerctl previous
 
 for_window [title="^Microsoft Teams Notification$" class="Microsoft Teams - Preview"] floating enable
 for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace $ws10
+for_window [class="zen"] border pixel 0
+for_window [class="st-256color"] border pixel 0
