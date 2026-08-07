@@ -1,0 +1,26 @@
+- name: Install flatpak
+  become: yes
+  ansible.builtin.apt:
+    name: flatpak
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Setup flathub repo for system
+  become: yes
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: system
+    state: present
+
+- name: Setup flathub repo for user
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+    state: present
+
+- name: Install flatseal
+  community.general.flatpak:
+    method: "{{ flatpak_method }}"
+    name: com.github.tchx84.Flatseal

@@ -3,8 +3,11 @@
   gather_facts: true
   vars:
     features: "{{ (lookup('pipe', 'chezmoi data') | from_yaml).features }}"
+    flatpak_method: user
   roles:
     - base
     - gcc
     - role: liquidprompt
       when: features.cli
+    - role: flatpak
+      when: features.gui
