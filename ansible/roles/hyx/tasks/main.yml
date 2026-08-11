@@ -1,0 +1,16 @@
+- name: Clone hyx repository
+  ansible.builtin.git:
+    repo: https://github.com/leahneukirchen/hyx
+    dest: "{{ xdg_src }}/hyx"
+    version: "{{ hyx_commit }}"
+    update: yes
+
+- name: Compile hyx
+  community.general.make:
+    chdir: "{{ xdg_src }}/hyx"
+
+- name: Install hyx
+  ansible.builtin.copy:
+    src: "{{ xdg_src }}/hyx/hyx"
+    dest: "{{ xdg_local }}/bin/hyx"
+    mode: "0500"
