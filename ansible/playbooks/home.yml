@@ -7,7 +7,7 @@
   roles:
     - base
     - gcc
-    - role: liquidprompt
-      when: features.cli
+    - liquidprompt
+    - hyx
     - role: flatpak
       when: features.gui
