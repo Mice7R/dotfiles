@@ -1,0 +1,354 @@
+# devsandbox configuration file
+# Location: ~/.config/devsandbox/config.toml
+
+# Proxy mode settings
+[proxy]
+# Enable proxy mode by default (can be overridden with --proxy flag)
+enabled = false
+
+# Default proxy server port
+port = 8080
+
+# MITM (Man-in-the-Middle) HTTPS interception.
+# When true (default), the proxy intercepts HTTPS connections using a generated CA certificate.
+# When false, HTTPS connections are tunneled through without decryption (transparent proxy).
+# Disabling MITM means credential injection, content redaction, and request filtering
+# will not work for HTTPS traffic - only for plain HTTP.
+# mitm = true
+
+# Bytes of each request/response body recorded in the proxy request log
+# (default: 262144). The body itself is always forwarded whole; only the
+# recorded copy is bounded, and a shortened entry is marked truncated.
+# Set to 0 to record no bodies at all. Maximum 2097152 (2 MiB): past that an
+# entry exceeds what "devsandbox logs proxy" reads back, so it is rejected at
+# startup. A project .devsandbox.toml may only lower this.
+# max_log_body_bytes = 262144
+
+# Additional environment variables set to the proxy URL when proxy is active.
+# The built-in set is always applied and is the same on every backend - see
+# docs/proxy.md, "Proxy Environment Variables".
+# Add tool-specific proxy vars here:
+# extra_env = ["CUSTOM_HTTP_PROXY", "MY_TOOL_PROXY"]
+
+# Additional environment variables set to the CA certificate path when proxy is active.
+# The built-in set is always applied - see docs/proxy.md, "CA Certificate".
+# Add tool-specific CA bundle vars here:
+# extra_ca_env = ["MY_TOOL_CA_BUNDLE", "CUSTOM_SSL_CERT"]
+
+# HTTP request filtering (requires proxy mode)
+# Filtering is enabled when default_action is set.
+# [proxy.filter]
+# Default action when no rule matches (enables filtering):
+# - "block": block unmatched requests (whitelist behavior)
+# - "allow": allow unmatched requests (blacklist behavior)
+# - "ask": prompt user for unmatched requests
+# default_action = "block"
+
+# Timeout in seconds for ask mode (default: 30)
+# ask_timeout = 30
+
+# Cache ask mode decisions for session (default: true)
+# cache_decisions = true
+
+# Filter rules (evaluated in order, first match wins)
+# Defaults: type = "glob", scope = "host"
+# [[proxy.filter.rules]]
+# pattern = "*.github.com"
+# action = "allow"
+
+# [[proxy.filter.rules]]
+# pattern = "api.anthropic.com"
+# action = "allow"
+
+# [[proxy.filter.rules]]
+# pattern = "*.tracking.io"
+# action = "block"
+# reason = "Tracking domain blocked"
+
+# Log-skip rules drop matching requests from proxy logs entirely.
+# Use this for noisy traffic you don't want to see in logs/proxy/requests.jsonl
+# or in any configured remote log dispatcher. Skip is absolute: matched
+# entries are dropped even on errors or filter blocks.
+# Defaults: type = "glob", scope = "host"
+# [[proxy.log_skip.rules]]
+# pattern = "telemetry.example.com"
+
+# [[proxy.log_skip.rules]]
+# pattern = "*/v1/traces"
+# scope = "url"
+# type = "glob"
+
+# Credential injection (requires proxy mode)
+# Injects authentication tokens into outbound requests for specific domains.
+# Tokens are read from host environment and never exposed to the sandbox.
+# All injectors are disabled by default.
+
+# GitHub API token injection (reads GITHUB_TOKEN or GH_TOKEN from host)
+# [proxy.credentials.github]
+# enabled = true
+# # overwrite = true       # replace any Authorization header on api.github.com
+# #                         # requests; useful when the sandbox sees a placeholder
+# #                         # GH_TOKEN (e.g. to satisfy the gh CLI) while the real
+# #                         # token stays on the host.
+# # [proxy.credentials.github.source]
+# # env = "GH_RO_TOKEN"     # read the real token from this host env var
+
+# Content redaction (requires proxy mode; MITM for anything beyond plain HTTP)
+# Scans outgoing request bodies, headers, and URLs for secrets.
+# Only requests that reach the proxy are scanned - see docs/proxy.md#redaction-coverage.
+# [proxy.redaction]
+# enabled = true
+# default_action = "block"  # "block", "redact", or "log"
+
+# Largest request body the secret scan will hold while deciding
+# (default: 10485760, 10 MiB). A body past this - or one that stalls for 30s -
+# is blocked, not forwarded unscanned, since a scan of part of a body proves
+# nothing about the rest. A project .devsandbox.toml may only lower this.
+# max_scan_bytes = 10485760
+
+# Source-based rule: detects exact secret value
+# [[proxy.redaction.rules]]
+# name = "api-secret"
+# action = "block"
+# [proxy.redaction.rules.source]
+# env = "API_SECRET_KEY"     # from environment variable
+# # value = "literal-secret" # OR static value
+# # file = "~/.secrets/key"  # OR from file
+# # env_file_key = "DB_PASS" # OR from .env file key
+
+# Pattern-based rule: detects regex matches
+# [[proxy.redaction.rules]]
+# name = "openai-keys"
+# action = "redact"
+# pattern = "sk-[a-zA-Z0-9]{32,}"
+
+# Sandbox settings
+[sandbox]
+# Base directory for sandbox homes
+# Defaults to ~/.local/share/devsandbox if not set
+# base_path = "~/.local/share/devsandbox"
+
+# Use embedded bwrap and pasta binaries (Linux only, default: true)
+# When false, only system-installed binaries are used.
+# use_embedded = true
+
+# Hide .env files from the sandbox (default: true)
+# When true, .env files are overlaid with /dev/null to prevent credential leaks.
+# Scanned up to 3 directory levels below the project root, skipping node_modules,
+# .git, vendor and .venv - matches outside that scope stay readable.
+# Set to false if sandboxed tools need to read .env files directly.
+# Can also be overridden at runtime with --no-hide-env flag.
+hide_env_files = true
+
+# Pass host environment variables into the sandbox.
+# Listed variables are copied from the host; unset variables are silently skipped.
+# env_passthrough = ["MY_API_KEY", "CUSTOM_TOOL_CONFIG"]
+
+# Control visibility of .devsandbox.toml inside the sandbox
+# - "hidden" (default): config file is not visible to sandboxed processes
+# - "readonly": config file is visible but read-only
+# - "readwrite": config file is visible and writable
+config_visibility = "hidden"
+
+# Set env vars inside the sandbox. Each key is a variable name; each
+# sub-table is a source (value / env / file, priority: value > env > file).
+# On conflict with env_passthrough, explicit values win.
+# These sub-tables end the [sandbox] section: add plain [sandbox] keys above them.
+# [sandbox.environment.GH_TOKEN]
+# value = "placeholder"
+#
+# [sandbox.environment.PINNED_TOKEN]
+# env = "HOST_VAR_NAME"   # rename on passthrough
+#
+# [sandbox.environment.FROM_FILE]
+# file = "~/.config/devsandbox/token"
+
+# Custom mount rules - control how paths are mounted in the sandbox
+# Note: Home directory paths (~/.ssh, ~/.aws, etc.) are NOT mounted by default.
+# .env files in the project are hidden by default (see hide_env_files above).
+#
+# Use these rules to:
+# - Mount additional paths from the host filesystem
+# - Hide sensitive files within the project
+# - Control read/write access to specific paths
+#
+# Modes:
+# - "hidden": overlay with /dev/null (files only - directory matches are skipped with a
+#   warning; no mode hides a directory, so match the files inside it instead)
+# - "readonly": mount as read-only bind mount
+# - "readwrite": mount as read-write bind mount
+# - "overlay": mount with persistent overlayfs (writes saved to sandbox)
+# - "tmpoverlay": mount with tmpfs overlay (writes discarded on exit)
+#
+# Patterns support glob syntax with ** for recursive matching and ~ for home.
+
+# Example: Mount app config directory as read-only
+# [[sandbox.mounts.rules]]
+# pattern = "~/.config/myapp"
+# mode = "readonly"
+
+# Example: Hide secret files within the project (the directories themselves stay visible)
+# [[sandbox.mounts.rules]]
+# pattern = "**/secrets/**"
+# mode = "hidden"
+
+# Example: Mount cache with overlay (persistent writes)
+# [[sandbox.mounts.rules]]
+# pattern = "~/.cache/myapp"
+# mode = "overlay"
+
+# Docker-specific settings
+# [sandbox.docker]
+# Path to Dockerfile for building the sandbox image.
+# Defaults to ~/.config/devsandbox/Dockerfile
+# The default Dockerfile contains: FROM ghcr.io/zekker6/devsandbox:latest
+# Edit it to add custom tools or configuration.
+# dockerfile = "/path/to/Dockerfile"
+
+# Sandbox resource limits. Backend-neutral: the same block applies to bwrap,
+# docker and krun. Every field is optional and unset means unlimited, except on
+# krun, which defaults to memory = "4g" and cpus = "2".
+#
+# On bwrap (the default backend on Linux) the limits are applied with a systemd
+# transient scope, which needs cgroup v2 and a systemd user manager with the
+# memory/cpu/pids controllers delegated to user@<uid>.service. If a configured
+# limit cannot be enforced the launch is aborted with an error naming what is
+# missing, rather than running unlimited - so only set these once you want that
+# guarantee. pids is not enforceable on krun, which warns and skips it.
+#
+# Prefer this block over the deprecated [sandbox.docker.resources], which is
+# still honored but applies to the docker and krun backends only.
+# [sandbox.resources]
+# Memory limit, base 1024; a bare integer means bytes.
+# memory = "4g"
+# CPU limit as a number of cores; "0.5" is half a core.
+# cpus = "2"
+# Maximum number of processes and threads.
+# pids = 2048
+
+# Overlay filesystem settings (global)
+[overlay]
+# Default mount mode for every tool binding (per-tool mount_mode overrides it):
+# - "split" (default): configs/runtime dirs get a discarded tmpfs overlay,
+#   cache/data/state dirs get a persistent overlay
+# - "overlay": persistent overlay for all bindings
+# - "tmpoverlay": writable overlay, changes discarded when the sandbox exits
+# - "readonly": read-only bind mounts, no writes at all
+# - "readwrite": direct read-write bind mounts to the host (no isolation)
+# default = "split"
+
+# Tool-specific configuration
+# Each tool can have its own section under [tools.<name>]
+
+# Git access settings
+[tools.git]
+# Git access mode:
+# - "readonly" (default): .git mounted read-only (no commits), no credentials
+# - "readwrite": full git access with credentials, SSH keys, GPG keys
+# - "disabled": no git config, but .git writable (commits need --author)
+mode = "readonly"
+
+# Mise tool manager settings
+[tools.mise]
+# Mount mode for the mise directories, overriding [overlay] default.
+# Accepts the same values as overlay.default plus "disabled" to skip mise entirely.
+# mount_mode = "split"
+
+# Ignore the host's global mise config (~/.config/mise/config.toml) in the sandbox.
+# When true, the global tool list is not resolved at startup - useful when it pins
+# "@latest" versions that stall on a proxied or egress-locked sandbox.
+# The project's .mise.toml and ~/.config/mise/settings.toml still apply.
+ignore_global_config = false
+
+# XDG Desktop Portal settings (Linux only)
+# Provides desktop notifications for sandboxed apps via xdg-desktop-portal.
+# Requires: xdg-dbus-proxy, xdg-desktop-portal + a backend
+[tools.portal]
+notifications = true    # Allow sending desktop notifications
+
+# Remote logging configuration
+# Proxy logs can be forwarded to remote destinations
+[logging]
+
+# Audit-grade filter decision logging.
+# When false (default), only block/ask decisions emit proxy.filter.decision events.
+# When true, every filter decision (including allow) emits an event - high volume,
+# only enable for short audit windows.
+# log_filter_decisions = false
+
+# Custom attributes added to all log entries
+# [logging.attributes]
+# environment = "development"
+# host = "myhost"
+
+# Example: Local syslog
+# [[logging.receivers]]
+# type = "syslog"
+# facility = "local0"
+# tag = "devsandbox"
+
+# Example: Remote syslog server
+# [[logging.receivers]]
+# type = "syslog-remote"
+# address = "logs.example.com:514"
+# protocol = "udp"  # or "tcp"
+# facility = "local0"
+# tag = "devsandbox"
+
+# Example: OpenTelemetry collector (HTTP)
+# [[logging.receivers]]
+# type = "otlp"
+# endpoint = "http://localhost:4318/v1/logs"
+# protocol = "http"  # default
+# # Static headers - values stored verbatim in the config file.
+# # Use this for non-secret metadata only.
+# headers = { "X-Team" = "platform" }
+# # Header sources - resolved at runtime from env vars, files, or literals.
+# # Use this for auth tokens to keep secrets out of the config file.
+# # The host env var must be set; resolving to an empty string is an error.
+# # [logging.receivers.header_sources.Authorization]
+# # env = "OTLP_AUTH_TOKEN"  # reads $OTLP_AUTH_TOKEN, e.g. "Bearer …"
+# # [logging.receivers.header_sources."X-API-Key"]
+# # file = "~/.config/devsandbox/otlp-key"  # reads file, trims whitespace
+# batch_size = 100
+# flush_interval = "5s"
+
+# Example: OpenTelemetry collector (gRPC)
+# [[logging.receivers]]
+# type = "otlp"
+# endpoint = "localhost:4317"
+# protocol = "grpc"
+# insecure = true  # disable TLS for local testing
+# batch_size = 100
+# flush_interval = "5s"
+
+# Port forwarding (requires network isolation)
+# Forward TCP/UDP ports between host and sandbox.
+# Requires proxy mode or pasta for network isolation.
+#
+# [port_forwarding]
+# enabled = true
+#
+# Inbound: host can connect to services inside sandbox
+# [[port_forwarding.rules]]
+# name = "devserver"
+# direction = "inbound"
+# protocol = "tcp"  # or "udp", defaults to "tcp"
+# host_port = 3000
+# sandbox_port = 3000
+#
+# Outbound: sandbox can connect to host services
+# [[port_forwarding.rules]]
+# name = "database"
+# direction = "outbound"
+# host_port = 5432
+# sandbox_port = 5432
+
+# Shell command wrappers
+# Commands listed here run inside devsandbox when typed in a host shell that
+# evaluates "devsandbox shell-wrappers activate". Nothing is wrapped by default.
+# Lists from this file, matching includes, and a trusted .devsandbox.toml are
+# combined. "<name>-no-ds" or "command <name>" still runs the host command.
+#
+# [shell_wrappers]
+# commands = ["npm", "bun", "node"]
